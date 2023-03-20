@@ -1,0 +1,12 @@
+.form-signin .form-floating:focus-within {
+    z-index: 2;
+}
+
+.form-signin input[type="email"] {
+    margin-bottom: 0px;
+}
+
+.form-registration input {
+    border-radius: 0;
+    margin-bottom: -1px;
+}
