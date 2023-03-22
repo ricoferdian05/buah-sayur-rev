@@ -55,7 +55,7 @@ class DashboardBarangPedagangController extends Controller
             'id_barang' => 'required',
             'id_kategori' => 'required',
             'id_satuan' => 'required',
-            'image' => 'image|file|max:2024',
+            'image' => 'required|image|file|max:2024',
             'is_musim' => 'required',
         ]);
 

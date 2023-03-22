@@ -92,7 +92,7 @@
                 <label for="image" class="form-label">Gambar Produk</label>
                 <img class="img-preview img-fluid mb-3 col-sm-5">
                 <input class="form-control @error('image') is-invalid @enderror" type="file" id="image"
-                    name="image" onchange="previewImage()">
+                    name="image" onchange="previewImage()" required>
                 @error('image')
                     <div class="invalid-feedback">
                         {{ $message }}
