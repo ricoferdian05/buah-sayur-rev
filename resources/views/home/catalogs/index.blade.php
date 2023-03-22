@@ -68,7 +68,7 @@
                                         style="max-width: 100%; max-height: 220px; object-fit:cover;">
                                 @endif
                                 <div class="card-body">
-                                    @if ($catalog->barang->status_musim == 1)
+                                    @if ($catalog->barang->status_musim == 1 or $catalog->is_musim == 1)
                                         <h5 style="color: orange" class="card-title">{{ $catalog->nama_barang }} (Sedang
                                             Musim)</h5>
                                     @else

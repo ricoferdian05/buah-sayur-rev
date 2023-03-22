@@ -1,4 +1,4 @@
-- Tidak bisa upload foto jika blm memasukkan Gambar, sistem sebelumnya jika pembeli tidak memasukkan gambar maka barang yang diinput akan otomatis diganti gambar default yang disediakan oleh sistem
+- Tidak bisa upload foto jika blm memasukkan Gambar, sistem sebelumnya jika pembeli tidak memasukkan gambar maka barang yang diinput akan otomatis diganti gambar default yang disediakan oleh sistem (done)
 - Upload gambar lebih dari 1
 - Menambahkan filter sedang musim pada menu katalog (Done)
 
