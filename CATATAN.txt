@@ -1,3 +1,9 @@
 - Tidak bisa upload foto jika blm memasukkan Gambar, sistem sebelumnya jika pembeli tidak memasukkan gambar maka barang yang diinput akan otomatis diganti gambar default yang disediakan oleh sistem
 - Upload gambar lebih dari 1
-- Menambahkan filter sedang musim pada menu katalog
+- Menambahkan filter sedang musim pada menu katalog (Done)
+
+admin@gmail.com
+password
+
+tokoberkah@gmail.com
+password
