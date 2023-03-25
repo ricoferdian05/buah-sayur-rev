@@ -24,6 +24,10 @@
                                 </h2>
                             </li>
                         @endforeach
+                        <li>
+                            <h2><a href="/home/catalogs?kategori=musim">Sedang Musim</a>
+                            </h2>
+                        </li>
                     </ul>
                 </div>
             </div>

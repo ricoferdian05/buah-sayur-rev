@@ -9,6 +9,7 @@ use App\Models\MusimBarang;
 use App\Models\Profil;
 use App\Models\User;
 use Carbon\Carbon;
+use GuzzleHttp\Psr7\Request;
 
 class BarangPedagangController extends Controller
 {
@@ -31,8 +32,13 @@ class BarangPedagangController extends Controller
         Carbon::setLocale('id');
         $title = '';
         if (request('kategori')) {
-            $category = Kategori::firstWhere('slug', request('kategori'));
-            $title = ' di ' . $category->nama_kategori;
+            if (request('kategori') == 'musim') {
+                $category = 'musim';
+                $title = ' di Sedang Musim';
+            } else {
+                $category = Kategori::firstWhere('slug', request('kategori'));
+                $title = ' di ' . $category->nama_kategori;
+            }
         }
 
         if (request('user')) {
