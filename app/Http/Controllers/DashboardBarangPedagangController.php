@@ -6,9 +6,11 @@ use App\Models\BarangPedagang;
 use App\Models\Kategori;
 use App\Models\Satuan;
 use App\Models\Barang;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
+use Termwind\Components\Dd;
 
 class DashboardBarangPedagangController extends Controller
 {
@@ -94,11 +96,15 @@ class DashboardBarangPedagangController extends Controller
      */
     public function edit(BarangPedagang $catalog)
     {
+        $dbImage = new Image;
+        $images = $dbImage->where('id_barang_pedagang', $catalog->id)->get();
+
         return view('dashboard/catalogs/edit', [
             'catalog' => $catalog,
             'categories' => Kategori::all(),
             'units' => Satuan::all(),
-            'suppliers' => Barang::all()
+            'suppliers' => Barang::all(),
+            'images' => $images,
         ]);
     }
 
@@ -113,7 +119,6 @@ class DashboardBarangPedagangController extends Controller
     {
         $rules = [
             'nama_barang' => 'required|max:255',
-            'image' => 'image|file|max:2024',
             'desk_barang' => 'required',
             'harga_barang' => 'required',
             'id_barang' => 'required',
@@ -127,26 +132,94 @@ class DashboardBarangPedagangController extends Controller
 
         $validateData = $request->validate($rules);
 
-        $currentImage = BarangPedagang::find($catalog->id)->image;
-        if ($request->file('image')) {
-            if ($request->image != $currentImage) {
 
-                $images = public_path('img/catalog-images/') . $currentImage;
-
-                if (file_exists($images)) {
-                    @unlink($images);
-                }
-                $title = $validateData['nama_barang'] . '.' . $validateData['image']->getClientOriginalExtension();
-                $validateData['image']->move(public_path('img/catalog-images'), $title);
-                $validateData['image'] = $title;
-            }
-        }
         $validateData['id_user'] = auth()->user()->id;
 
         BarangPedagang::where('id', $catalog->id)
             ->update($validateData);
 
         return redirect('/dashboard/catalogs')->with('success', 'Katalog telah diperbarui');
+    }
+
+    public function gambar($id)
+    {
+        return view('dashboard/catalogs/gambar', [
+            'images' => Image::where('id_barang_pedagang', $id)->get(),
+        ]);
+    }
+
+    public function editGambar(Request $request)
+    {
+        $rules = [
+            'image1' => 'image|file|max:2024',
+            'image2' => 'image|file|max:2024',
+            'image3' => 'image|file|max:2024',
+        ];
+
+        $validateData = $request->validate($rules);
+
+        $dbImage = new Image;
+        $dbBarangPedagang = new BarangPedagang;
+
+        $oldImage = $dbImage->where('id', $request->id)->get();
+        $oldImage1 = $oldImage[0]->image1;
+        $oldImage2 = $oldImage[0]->image2;
+        $oldImage3 = $oldImage[0]->image3;
+
+        $barangPedagang = $dbBarangPedagang->where('id', $oldImage[0]->id_barang_pedagang)->get();
+
+        // Gambar 1
+        if ($request->file('image1') !== null) {
+            $title1 = $request->image1->getClientOriginalName();
+
+            $pathImage = public_path('img/catalog-images/') . $oldImage1;
+
+            if (file_exists($pathImage)) {
+                @unlink($pathImage);
+            }
+
+            $validateData['image1']->move(public_path('img/catalog-images'), $title1);
+            $validateData['image1'] = $title1;
+
+            $dbImage->where('id', $request->id)
+                ->update(array('image1' => $title1));
+        }
+
+        // Gambar 2
+        if ($request->file('image2') !== null) {
+            $title2 = $request->image2->getClientOriginalName();
+
+            $pathImage = public_path('img/catalog-images/') . $oldImage2;
+
+            if (file_exists($pathImage)) {
+                @unlink($pathImage);
+            }
+
+            $validateData['image2']->move(public_path('img/catalog-images'), $title2);
+            $validateData['image2'] = $title2;
+
+            $dbImage->where('id', $request->id)
+                ->update(array('image2' => $title2));
+        }
+
+        // Gambar 3
+        if ($request->file('image3') !== null) {
+            $title3 = $request->image3->getClientOriginalName();
+
+            $pathImage = public_path('img/catalog-images/') . $oldImage3;
+
+            if (file_exists($pathImage)) {
+                @unlink($pathImage);
+            }
+
+            $validateData['image3']->move(public_path('img/catalog-images'), $title3);
+            $validateData['image3'] = $title3;
+
+            $dbImage->where('id', $request->id)
+                ->update(array('image3' => $title3));
+        }
+
+        return redirect('/dashboard/catalogs/' . $barangPedagang[0]->slug . '/edit')->with('success', 'Gambar telah diperbarui');
     }
 
     /**

@@ -44,16 +44,6 @@
                 @enderror
             </div>
             <div class="mb-3">
-                {{-- <label for="slug" class="form-label">Slug</label> --}}
-                <input type="hidden" class="form-control @error('is_musim') is-invalid @enderror" id="is_musim"
-                    name="is_musim" required value="0">
-                @error('is_musim')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                @enderror
-            </div>
-            <div class="mb-3">
                 <label for="harga_barang" class="form-label">Harga Jual</label>
                 <input type="number" class="form-control @error('harga_barang') is-invalid  @enderror" id="harga_barang"
                     name="harga_barang" required autofocus value="{{ old('harga_barang', $catalog->harga_barang) }}">
@@ -89,15 +79,32 @@
             </div>
             <div class="mb-3">
                 <label for="image" class="form-label">Gambar Produk</label>
-                <input type="hidden" name="oldImage" value="{{ $catalog->image }}">
-                @if ($catalog->image)
-                    <img src="{{ asset('img/catalog-images/' . $catalog->image) }}"
-                        class="img-preview img-fluid mb-3 col-sm-5 d-block">
-                @else
-                    <img class="img-preview img-fluid mb-3 col-sm-5">
-                @endif
-                <input class="form-control @error('image') is-invalid @enderror" type="file" id="image"
-                    name="image" onchange="previewImage()">
+                <div class="row ms-2">
+                    {{-- Gambar 1 --}}
+                    @if ($images[0]->image1 !== null && $images[0]->image1 !== '')
+                        <div class="col text-center shadow-sm">
+                            <img src="{{ asset('img/catalog-images/' . $images[0]->image1) }}"
+                                class="img-fluid mb-3 col-sm-5">
+                        </div>
+                    @endif
+                    {{-- Gambar 2 --}}
+                    @if ($images[0]->image2 !== null && $images[0]->image2 !== '')
+                        <div class="col text-center shadow-sm">
+                            <img src="{{ asset('img/catalog-images/' . $images[0]->image2) }}"
+                                class="img-fluid mb-3 col-sm-5">
+                        </div>
+                    @endif
+                    {{-- Gambar 3 --}}
+                    @if ($images[0]->image3 !== null && $images[0]->image3 !== '')
+                        <div class="col text-center shadow-sm">
+                            <img src="{{ asset('img/catalog-images/' . $images[0]->image3) }}"
+                                class="img-fluid mb-3 col-sm-5">
+                        </div>
+                    @endif
+
+                </div>
+                <a href="/dashboard/catalogs/gambar/{{ $catalog->id }}" class="btn btn-secondary mt-3">Tambah
+                    Gambar</a>
                 @error('image')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -115,7 +122,7 @@
                     </small>
                 @enderror
             </div>
-            <button type="submit" class="btn btn-primary">Perbarui Katalog</button>
+            <button type="submit" class="btn btn-success" style="width: 100%">Simpan Katalog</button>
         </form>
     </div>
     <script>

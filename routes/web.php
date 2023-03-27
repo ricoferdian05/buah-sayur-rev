@@ -94,6 +94,9 @@ Route::post('/home/logout', [LoginController::class, 'logout']);
 Route::get('/dashboard/catalogs/checkSlug', [DashboardBarangPedagangController::class, 'checkSlug'])->middleware('auth');
 Route::resource('/dashboard/catalogs', DashboardBarangPedagangController::class)->middleware('auth');
 
+Route::get('/dashboard/catalogs/gambar/{id}', [DashboardBarangPedagangController::class, 'gambar']);
+Route::post('/dashboard/catalogs/editGambar', [DashboardBarangPedagangController::class, 'editGambar']);
+
 // Halaman reset kata sandi
 Route::get('/dashboard/passwords', [DashboardPasswordController::class, 'index'])->middleware('auth');
 Route::post('/dashboard/passwords', [DashboardPasswordController::class, 'authenticate'])->name('change-password');

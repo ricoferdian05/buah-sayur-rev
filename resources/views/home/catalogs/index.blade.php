@@ -90,7 +90,7 @@
                                         <h4 style="display: inline">Rp.
                                             <?= number_format($catalog->harga_barang, 0, ',', '.') ?></h4>
                                         /{{ $catalog->satuan->nama_satuan }} <span
-                                            class="bi bi-hand-thumbs-up-fill                                            "></span>
+                                            class="bi bi-hand-thumbs-up-fill"></span>
                                         <br />
                                         <small class="text-muted">Harga {{ $catalog->barang->persentase }}</small>
                                         </p>
