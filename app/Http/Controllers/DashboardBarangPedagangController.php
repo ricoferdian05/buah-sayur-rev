@@ -61,8 +61,10 @@ class DashboardBarangPedagangController extends Controller
             'is_musim' => 'required',
         ]);
 
+        $slug = $request->slug;
+
         if ($request->file('image')) {
-            $title = $validateData['nama_barang'] . '.' . $validateData['image']->getClientOriginalExtension();
+            $title = $validateData['slug'] . '.' . $validateData['image']->getClientOriginalExtension();
             $validateData['image']->move(public_path('img/catalog-images'), $title);
             $validateData['image'] = $title;
         }
@@ -71,6 +73,15 @@ class DashboardBarangPedagangController extends Controller
 
         BarangPedagang::create($validateData);
 
+        $dbBarangPedagang = new BarangPedagang;
+        $barangPedagang = $dbBarangPedagang->where('slug', $slug)->first();
+
+        $id = $barangPedagang->id;
+
+        $dbImage = new Image;
+        $image = $dbImage->insert(
+            array('image1' => $title, 'id_barang_pedagang' => $id)
+        );
         return redirect('/dashboard/catalogs')->with('success', 'Katalog baru telah ditambahkan');
     }
 
@@ -82,9 +93,11 @@ class DashboardBarangPedagangController extends Controller
      */
     public function show(BarangPedagang $catalog)
     {
+        $dbImage = new Image;
+        $images = $dbImage->where('id_barang_pedagang', $catalog->id)->first();
         return view('dashboard/catalogs/show', [
             'catalog' => $catalog,
-            'image' => 'default.jpg'
+            'images' => $images,
         ]);
     }
 

@@ -79,7 +79,7 @@
             </div>
             <div class="mb-3">
                 <label for="image" class="form-label">Gambar Produk</label>
-                <div class="row ms-2">
+                <div class="row m-2">
                     {{-- Gambar 1 --}}
                     @if ($images[0]->image1 !== null && $images[0]->image1 !== '')
                         <div class="col text-center shadow-sm">
@@ -101,7 +101,6 @@
                                 class="img-fluid mb-3 col-sm-5">
                         </div>
                     @endif
-
                 </div>
                 <a href="/dashboard/catalogs/gambar/{{ $catalog->id }}" class="btn btn-secondary mt-3">Tambah
                     Gambar</a>

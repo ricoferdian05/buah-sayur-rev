@@ -59,18 +59,23 @@
                             <div class="card h-100 shadow p-1 mb-5 bg-white rounded" data-aos="fade-up"
                                 data-aos-delay="100">
                                 <div class="position-absolute px-3 py-2 text-white rounded"
-                                    style="background-color: rgba(255, 165, 0, 0.7)"><a
+                                    style="background-color: rgba(255, 165, 0, 0.7); z-index: 10"><a
                                         href="/home/catalogs?kategori={{ $catalog->kategori->slug }}"
                                         class="text-white text-decoration-none">{{ $catalog->kategori->nama_kategori }}</a>
                                 </div>
-                                @if ($catalog->image)
-                                    <img src="{{ asset('img/catalog-images/' . $catalog->image) }}"
-                                        class="img-fluid rounded"
-                                        style="max-width: 100%; max-height: 220px; object-fit:cover;">
-                                @else
-                                    <img src="{{ asset('img/catalog-images/' . $image) }}" class="card-img-top rounded"
-                                        style="max-width: 100%; max-height: 220px; object-fit:cover;">
-                                @endif
+                                @foreach ($images as $image)
+                                    @if ($image->id_barang_pedagang == $catalog->id)
+                                        @if ($image->image1 !== null && $image->image1 !== '')
+                                            <img src="{{ asset('img/catalog-images/' . $image->image1) }}"
+                                                class="d-block w-100" alt="..."
+                                                style="max-width: 100%; max-height: 220px; object-fit:cover;">
+                                        @else
+                                            <img src="{{ asset('img/catalog-images/' . $imageDefault) }}"
+                                                class="d-block w-100" alt="..."
+                                                style="max-width: 100%; max-height: 220px; object-fit:cover;">
+                                        @endif
+                                    @endif
+                                @endforeach
                                 <div class="card-body">
                                     @if ($catalog->barang->status_musim == 1 or $catalog->is_musim == 1)
                                         <h5 style="color: orange" class="card-title">{{ $catalog->nama_barang }} (Sedang

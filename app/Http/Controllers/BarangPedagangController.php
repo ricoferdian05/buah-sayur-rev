@@ -8,6 +8,7 @@ use App\Models\Barang;
 use App\Models\MusimBarang;
 use App\Models\Profil;
 use App\Models\User;
+use App\Models\Image;
 use Carbon\Carbon;
 use GuzzleHttp\Psr7\Request;
 
@@ -50,17 +51,22 @@ class BarangPedagangController extends Controller
             "title" => "Katalog" . $title,
             "catalogs" => $catalogs,
             "categories" => Kategori::all(),
-            'image' => 'default.jpg',
+            'imageDefault' => 'default.jpg',
+            'images' => Image::all(),
             "profiles" => Profil::all()
         ]);
     }
 
     public function show(BarangPedagang $catalog)
     {
+        $dbImage = new Image;
+        $images = $dbImage->where('id_barang_pedagang', $catalog->id)->first();
+
         return view('home/catalogs/show', [
             "title" => "Katalog",
             "catalog" => $catalog,
-            'image' => 'default.jpg',
+            'imageDefault' => 'default.jpg',
+            'images' => $images,
             "profiles" => Profil::all()
         ]);
     }
